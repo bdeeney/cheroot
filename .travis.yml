@@ -3,7 +3,6 @@ sudo: false
 language: python
 
 python:
-- 2.6
 - 2.7
 - 3.3
 - 3.4
@@ -86,12 +85,6 @@ jobs:
     # mainstream here (3.6)
   - <<: *pure_python_base_priority
     python: nightly
-  - <<: *osx_python_base
-    python: 2.6
-    env:
-    - PYTHON_VERSION=2.6.9
-    - *env_pyenv
-    - *env_path
   - <<: *osx_python_base
     python: 2.7
     env:
