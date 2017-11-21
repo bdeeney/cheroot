@@ -3,6 +3,12 @@ v6.0.0
 
 - Drop support for Python 2.6, 3.1, and 3.2.
 
+v5.9.1
+======
+
+- #58: Reverted encoding behavior in wsgi module to correct
+  regression in CherryPy tests.
+
 v5.9.0
 ======
 

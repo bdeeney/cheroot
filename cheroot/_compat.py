@@ -5,20 +5,33 @@ import re
 import six
 
 if six.PY3:
+    def ntob(n, encoding='ISO-8859-1'):
+        """Return the native string as bytes in the given encoding."""
+        assert_native(n)
+        # In Python 3, the native string type is unicode
+        return n.encode(encoding)
+
     def ntou(n, encoding='ISO-8859-1'):
-        """Return the given native string as a unicode string with the given encoding."""
+        """Return the native string as unicode with the given encoding."""
         assert_native(n)
         # In Python 3, the native string type is unicode
         return n
 
     def bton(b, encoding='ISO-8859-1'):
-        """Return the given byte string as a native string in the given encoding."""
+        """Return the byte string as native string in the given encoding."""
         return b.decode(encoding)
 else:
     # Python 2
+    def ntob(n, encoding='ISO-8859-1'):
+        """Return the native string as bytes in the given encoding."""
+        assert_native(n)
+        # In Python 2, the native string type is bytes. Assume it's already
+        # in the given encoding, which for ISO-8859-1 is almost always what
+        # was intended.
+        return n
 
     def ntou(n, encoding='ISO-8859-1'):
-        """Return the given native string as a unicode string with the given encoding."""
+        """Return the native string as unicode with the given encoding."""
         assert_native(n)
         # In Python 2, the native string type is bytes.
         # First, check for the special encoding 'escape'. The test suite uses
@@ -35,7 +48,7 @@ else:
         return n.decode(encoding)
 
     def bton(b, encoding='ISO-8859-1'):
-        """Return the given byte string as a native string in the given encoding."""
+        """Return the byte string as native string in the given encoding."""
         return b
 
 

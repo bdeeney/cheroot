@@ -43,12 +43,15 @@ class BuiltinSSLAdapter(Adapter):
     ciphers = None
     """The ciphers list of SSL."""
 
-    def __init__(self, certificate, private_key, certificate_chain=None, ciphers=None):
+    def __init__(
+            self, certificate, private_key, certificate_chain=None,
+            ciphers=None):
         """Set up context in addition to base class properties if available."""
         if ssl is None:
             raise ImportError('You must install the ssl module to use HTTPS.')
 
-        super(BuiltinSSLAdapter, self).__init__(certificate, private_key, certificate_chain, ciphers)
+        super(BuiltinSSLAdapter, self).__init__(
+            certificate, private_key, certificate_chain, ciphers)
 
         self.context = ssl.create_default_context(
             purpose=ssl.Purpose.CLIENT_AUTH,
@@ -65,8 +68,9 @@ class BuiltinSSLAdapter(Adapter):
     def wrap(self, sock):
         """Wrap and return the given socket, plus WSGI environ entries."""
         try:
-            s = self.context.wrap_socket(sock, do_handshake_on_connect=True,
-                                         server_side=True)
+            s = self.context.wrap_socket(
+                sock, do_handshake_on_connect=True, server_side=True,
+            )
         except ssl.SSLError as ex:
             if ex.errno == ssl.SSL_ERROR_EOF:
                 # This is almost certainly due to the cherrypy engine
@@ -79,10 +83,16 @@ class BuiltinSSLAdapter(Adapter):
                     raise errors.NoSSLError
 
                 # Check if it's one of the known errors
-                # Errors that are caught by PyOpenSSL, but thrown by built-in ssl
-                _block_errors = ('unknown protocol', 'unknown ca', 'unknown_ca', 'unknown error',
-                                 'https proxy request', 'inappropriate fallback', 'wrong version number',
-                                 'no shared cipher', 'certificate unknown', 'ccs received early')
+                # Errors that are caught by PyOpenSSL, but thrown by
+                # built-in ssl
+                _block_errors = (
+                    'unknown protocol', 'unknown ca', 'unknown_ca',
+                    'unknown error',
+                    'https proxy request', 'inappropriate fallback',
+                    'wrong version number',
+                    'no shared cipher', 'certificate unknown',
+                    'ccs received early',
+                )
                 for error_text in _block_errors:
                     if error_text in ex.args[1].lower():
                         # Accepted error, let's pass
