@@ -5,6 +5,19 @@ v6.0.0
 - Also drop built-in SSL support for Python 2.7 earlier
   than 2.7.9.
 
+v5.10.0
+======
+
+- Minor refactorings of cheroot/server.py to reduce redundancy
+  of behavior.
+- Delinting with fewer exceptions.
+- Restored license to BSD.
+
+v5.9.2
+======
+
+- #61: Re-release without spurious files in the distribution.
+
 v5.9.1
 ======
 
@@ -21,6 +34,8 @@ v5.9.0
   in CherryPy, now superseding the implementation there.
 
 - Substantial cleanup around compatibility functions (_compat module).
+
+- License unintentionally changed to MIT. BSD still declared and intended.
 
 v5.8.3
 ======
